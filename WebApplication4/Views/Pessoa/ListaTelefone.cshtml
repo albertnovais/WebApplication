@@ -1,0 +1,71 @@
+﻿@model IEnumerable<WebApplication4.Models.Telefone>
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal" style="margin-bottom:3%;">
+        <div class="col-md-12">
+            <div class="card ">
+                <div class="card-body row">
+                    <div class="form-group col-sm-5" style="font-weight:bold;">
+                        <label class="bmd-label-floating">Selecione Tipo @ViewBag.cpf</label>
+                        <select name="Descricao" type="text" class="form-control">
+                            <option value="Celular">Celular</option>
+                            <option value="WhatsApp">WhatsApp</option>
+                            <option value="Residencial">Residencial</option>
+                            <option value="Trabalho">Trabalho</option>
+                            <option value="Outros">Outros</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-sm-7" style="font-weight:bold;">
+                        <label class="bmd-label-floating">Número</label>
+                        <input name="numero" type="text" class="form-control" />
+                    </div>
+                </div>
+
+                <div style="text-align:right">
+                    <row>
+                        <div class="form-group">
+                            <input type="submit" value="Adicionar Número" class="btn btn-success ml-5 mr-2" style="font-weight:bold; font-family:Arial;" />
+                        </div>
+                    </row>
+                </div>
+                @*}*@
+            </div>
+        </div>
+    </div>
+
+}
+
+<table id="table" class="display table-sm table-striped table-responsive-sm" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                Tipo
+            </th>
+            <th>
+                Número
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Numero)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

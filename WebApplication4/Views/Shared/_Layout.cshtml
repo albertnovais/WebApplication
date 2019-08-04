@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Meu Aplicativo ASP.NET</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+     @*Datatables CSS 
+
+    <link rel="stylesheet" type="text/css" href="~/DataTables/datatables.min.css" />*@
+
+    <!-- Icones -->
+
+    <script src="https://kit.fontawesome.com/aa3f46289b.js"></script>
+
+    <!-- TinyMCE -->
+
+    <script src="https://cloud.tinymce.com/5/tinymce.min.js?apiKey=8bna9ekf0ugwcthe2mwnwnlb699fmxx3o750mucxseru2706"></script>
+
+    <title>Desafio</title>
+
+</head>
+<body style="background-color:#f5f5f5">
+
+    <div class="container body-content">
+        <header class="blog-header py-3">
+            <div class="row flex-nowrap">
+                <a class="blog-header-logo text-dark" style="margin:auto" href="@Url.Action("Index","Home")">
+                    <img src="~/IMG/33730325.png" style="width:60px; height:50px;">Desafio IATec
+                </a>
+            </div>
+        </header>
+
+        <div class="nav-scroller py-1 mb-2">
+            <nav class="navbar navbar-expand navbar-dark bg-secondary">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Index","Home")">Ínico <span class="sr-only">(current)</span></a>
+                        </li>
+
+
+                        @if (Request.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ListarPessoa", "Pessoa")">Listar Pessoas <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("CriarPessoa", "Pessoa")">Criar Pessoas <span class="sr-only">(current)</span></a>
+                            </li>
+                        }
+
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        <div class="jumbotron mb-5">
+            @RenderBody()
+        </div>
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Meu Aplicativo Para o Desafio</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <script type="text/javascript" src="~/DataTables/datatables.min.js"></script>
+    <!--
+    Scripts Adicionais
+
+    Modal
+
+    WebService ViaCEP
+
+    Editor de texto TinyMCE
+
+    Datatables
+
+    Paginação
+
+    -->
+    <!--Abrir Modal-->
+    <script>
+        $('#myModal').on('shown.bs.modal', function () {
+            $('#myButton').trigger('focus')
+        })
+    </script>
+
+    <!-- WebService ViaCEP
+    https://viacep.com.br/
+    -->
+
+    <script type="text/javascript">
+
+        function limpa_formulário_cep() {
+            //Limpa valores do formulário de cep.
+            document.getElementById('rua').value = ("");
+            document.getElementById('bairro').value = ("");
+            document.getElementById('cidade').value = ("");
+            document.getElementById('uf').value = ("");
+
+        }
+
+        function meu_callback(conteudo) {
+            if (!("erro" in conteudo)) {
+                //Atualiza os campos com os valores.
+                document.getElementById('rua').value = (conteudo.logradouro);
+                document.getElementById('bairro').value = (conteudo.bairro);
+                document.getElementById('cidade').value = (conteudo.localidade);
+                document.getElementById('uf').value = (conteudo.uf);
+
+            } //end if.
+            else {
+                //CEP não Encontrado.
+                limpa_formulário_cep();
+                alert("CEP não encontrado.");
+            }
+        }
+
+        function pesquisacep(valor) {
+
+            //Nova variável "cep" somente com dígitos.
+            var cep = valor.replace(/\D/g, '');
+
+            //Verifica se campo cep possui valor informado.
+            if (cep != "") {
+
+                //Expressão regular para validar o CEP.
+                var validacep = /^[0-9]{8}$/;
+
+                //Valida o formato do CEP.
+                if (validacep.test(cep)) {
+
+                    //Preenche os campos com "..." enquanto consulta webservice.
+                    document.getElementById('rua').value = "...";
+                    document.getElementById('bairro').value = "...";
+                    document.getElementById('cidade').value = "...";
+                    document.getElementById('uf').value = "...";
+
+
+                    //Cria um elemento javascript.
+                    var script = document.createElement('script');
+
+                    //Sincroniza com o callback.
+                    script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=meu_callback';
+
+                    //Insere script no documento e carrega o conteúdo.
+                    document.body.appendChild(script);
+
+                } //end if.
+                else {
+                    //cep é inválido.
+                    limpa_formulário_cep();
+                    alert("Formato de CEP inválido.");
+                }
+            } //end if.
+            else {
+                //cep sem valor, limpa formulário.
+                limpa_formulário_cep();
+            }
+        };
+
+    </script>
+
+    <!--
+       API para Edição de Texto
+       TinyMCE https://www.tiny.cloud
+    -->
+    <script>
+        tinymce.init({
+            selector: '#mytextarea',
+            plugins: "image, print, ",
+            language: 'pt_BR',
+            language_url: "https://localhost:44331/Scripts/pt_BR.js"
+        });
+    </script>
+
+    <!--Datatables-->
+
+    <script>
+        $(document).ready(function () {
+            $('#table.display').DataTable({
+                "scrollX": true,
+                "language": {
+                    "sEmptyTable": "Nenhum registro encontrado",
+                    "sProcessing": "A processar...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "Não foram encontrados resultados",
+                    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando de 0 até 0 de 0 registros",
+                    "sInfoFiltered": "(filtrado de _MAX_ registros no total)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Procurar:",
+                    "sUrl": "",
+                    "oPaginate": {
+                        "sFirst": "Primeiro",
+                        "sPrevious": "Anterior",
+                        "sNext": "Seguinte",
+                        "sLast": "Último"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Ordenar colunas de forma ascendente",
+                        "sSortDescending": ": Ordenar colunas de forma descendente"
+                    }
+                }
+            }
+            )
+        });
+    </script>
+
+
+    <!--Paginação-->
+    <script>
+        $(document).ready(function () {
+            var item = $('a[href*="' + window.location.pathname + '"]');
+            item.parent().addClass("active");
+            item.parent().parent().parent().addClass("active menu-open");
+        });
+    </script>
+
+
+</body>
+</html>

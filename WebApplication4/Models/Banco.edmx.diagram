@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7122abccbc2c48e981c776e9a163311b" Name="Diagram1">
+        <EntityTypeShape EntityType="DESAFIO_IATECModel.Acesso" Width="1.5" PointX="0.75" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DESAFIO_IATECModel.Endereco" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DESAFIO_IATECModel.Pessoa" Width="1.5" PointX="3" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DESAFIO_IATECModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DESAFIO_IATECModel.Telefone" Width="1.5" PointX="5.25" PointY="5.25" IsExpanded="true" />
+        <AssociationConnector Association="DESAFIO_IATECModel.FK_Pessoa_Acesso" ManuallyRouted="false" />
+        <AssociationConnector Association="DESAFIO_IATECModel.FK_Endereco_Pessoa" ManuallyRouted="false" />
+        <AssociationConnector Association="DESAFIO_IATECModel.FK_Telefone_Pessoa" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
